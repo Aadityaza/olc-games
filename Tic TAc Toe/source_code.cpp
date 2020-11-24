@@ -131,7 +131,7 @@ public:
 			}
 		}
 		player_mat[best_move / 3][best_move % 3]='O'; //making best move //again converting 1D indexing to 2D
-		std::cout << "best move is :" << best_move / 3 << ","<< best_move % 3 << std::endl << best_value << std::endl;
+		std::cout << "Computers move is :" << best_move / 3 << ","<< best_move % 3 << std::endl <<"Best value is:"<< best_value << std::endl;
 	}
 	
 

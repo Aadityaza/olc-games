@@ -1,9 +1,9 @@
+//you need to include olcPixelGameEngine.h in your hedder files order to use this code.You can download the hedder file from the link given in README file.
+//this program uses min-max algorithm to implement computer player.
+
 #define OLC_PGE_APPLICATION
 #include "olcPixelGameEngine.h"
-#include<thread>
 #include<iostream>
-using namespace std::this_thread; // sleep_for, sleep_until
-using namespace std::chrono; // nanoseconds, system_clock, seconds
 
 class TicTacToe : public olc::PixelGameEngine
 {

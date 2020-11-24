@@ -36,12 +36,7 @@ public:
 				}
 			}
 		}
-		for (int i = 0; i != 3; i++) {
-			for (int j = 0; j != 3; j++) {
-				std::cout << player_mat[i][j];
-			}
-			std::cout << std::endl;
-		}
+		
 	}
 	bool check(char player) {
 		for (int i = 0; i != 3; i++) {
@@ -75,29 +70,29 @@ public:
 		DrawSprite(0, 0, board, 1);
 	}
 	bool move_left() {
-		int empty_space = 0;
-		for (auto& row : player_mat) {
-			for (auto& elem : row) {
-				if(elem==NULL)empty_space++;
+		for (int i = 0; i != 3; i++) {
+			for (int j = 0; j != 3; j++){
+				if (player_mat[i][j] == NULL) {
+					return true;
+				}
 			}
 		}
-		if (empty_space == 0) return false;
-		else return true;
+		 return false;
 
 	}
-	int MinMax(bool isMaxPlayer) { //returns the value of thr board
+	int MinMax(bool isMaxPlayer) { //returns the value of the board
 		
 		if (check('O')) return 1;
 		if (check('X')) return -1;
-		if (!move_left()) return 0;
+		if (move_left()==false) return 0;
 
 		if (isMaxPlayer) {
 			int best = -100000;
 			for (int i = 0; i != 3; i++) {
 				for (int j = 0; j != 3; j++) {
 					if (player_mat[i][j] == NULL) {
-						player_mat[i][j] = 'O';
-						best = max(best, MinMax(!isMaxPlayer));//recursively find outs best value;
+						player_mat[i][j] = 'X';
+						best = max(best, MinMax(false));//recursively find outs best value;
 						player_mat[i][j] = NULL; //undo change made in board
 					}
 				}
@@ -109,13 +104,13 @@ public:
 			for (int i = 0; i != 3; i++) {
 				for (int j = 0; j != 3; j++) {
 					if (player_mat[i][j] == NULL) {
-						player_mat[i][j] = 'X';
-						best = max(best, MinMax(isMaxPlayer));//recursively find outs best value;
+						player_mat[i][j] = 'O';
+						best = min(best, MinMax(true));//recursively find outs best value;
 						player_mat[i][j] = NULL; //undo change made in board
 					}
 				}
 			}
-
+			return best;
 		}
 	}
 	void computers_move() {
@@ -135,14 +130,14 @@ public:
 				}
 			}
 		}
-		player_mat[best_move / 3][best_move % 3]=='O'; //making best move //again converting 1D indexing to 2D
-		std::cout << "best move is" << best_move / 3 << std::endl << best_move % 3 << std::endl << best_move;
+		player_mat[best_move / 3][best_move % 3]='O'; //making best move //again converting 1D indexing to 2D
+		std::cout << "best move is :" << best_move / 3 << ","<< best_move % 3 << std::endl << best_value << std::endl;
 	}
 	
 
 	bool OnUserCreate() override
 	{
-				//loading sprites
+		//loading sprites
 		board =		new olc::Sprite("board.png");
 		player_x =  new olc::Sprite("x.png");
 		player_o =  new olc::Sprite("o.png");		
@@ -193,6 +188,7 @@ public:
 						draw_players();
 					}
 					if (check('O')) run = false;
+					if (!move_left()) run = false;
 				}				
 			}
 		}
